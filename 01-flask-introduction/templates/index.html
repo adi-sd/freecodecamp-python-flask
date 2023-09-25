@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Task Master</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="content">
+    <div class="task-title">
+        <h1>Task Master</h1>
+    </div>
+    <div class="task-body">
+        <table class="task-table">
+            <tr style="background-color: orangered;">
+                <th>Task</th>
+                <th>Added</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks %}
+            {% if task.isMarkedDone %}
+            <tr style="background-color: cyan; text-decoration: line-through;">
+                {% else %}
+            <tr style="background-color: yellow;">
+                {% endif %}
+                <td>{{ task.content }}</td>
+                <td>{{ task.date_created.date() }}</td>
+                <td>
+                    <a class="action-link" href="/delete/{{task.id}}">Delete</a>
+                    <br />
+                    {% if task.isMarkedDone %}
+                    <a class="action-link" href="/update/{{task.id}}"">Mark UnDone</a>
+                        {% else %}
+                        <a class=" action-link" href="/update/{{task.id}}"">Mark Done</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <hr class=" divider" />
+                    <div class="task-form">
+                        <form action="/" method="POST">
+                            <input type="text" name="content" id="content">
+                            <input type="submit" value="Add Task">
+                        </form>
+                    </div>
+    </div>
+
+    {% endblock %}
